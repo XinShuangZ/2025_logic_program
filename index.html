@@ -911,36 +911,6 @@ female(马皇后).   % 朱元璋正妻
             });
         });
     </script>
-    <script>
-        (function () {
-            // 页面唯一 key
-            const KEY = 'logic-programming-page-views';
-            // 读取历史次数（没有就初始化为 0）
-            let count = parseInt(localStorage.getItem(KEY)) || 0;
-            // 本次访问 +1
-            count += 1;
-            // 存回去
-            localStorage.setItem(KEY, count);
-
-            // 创建显示元素
-            const counter = document.createElement('div');
-            counter.id = 'viewCounter';
-            counter.textContent = `浏览量：${count}`;
-            // 样式：固定在左上角
-            Object.assign(counter.style, {
-                position: 'fixed',
-                top: '10px',
-                left: '10px',
-                background: 'rgba(52,152,219,0.85)',
-                color: '#fff',
-                padding: '6px 12px',
-                borderRadius: '4px',
-                fontSize: '14px',
-                zIndex: 9999
-            });
-            document.body.appendChild(counter);
-        })();
-    </script>
 </body>
 
 </html>
