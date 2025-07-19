@@ -1,1780 +1,937 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!-- 浏览量计数器 -->
+
 
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width initial-scale=1'>
-
-    <link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext'
-        rel='stylesheet' type='text/css' />
-    <style type='text/css'>
-        html {
-            overflow-x: initial !important;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Logic Program</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --select-text-bg-color: #B5D6FC;
-            --select-text-font-color: auto;
-            --monospace: "Lucida Console", Consolas, "Courier", monospace;
-            --title-bar-height: 20px;
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --text-color: #2c3e50;
+            --footer-color: #34495e;
         }
 
-        .mac-os-11 {
-            --title-bar-height: 28px;
-        }
-
-        html {
-            font-size: 14px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body {
-            margin: 0px;
-            padding: 0px;
-            height: auto;
-            inset: 0px;
-            font-size: 1rem;
-            line-height: 1.42857;
-            overflow-x: hidden;
-            background: inherit;
-            tab-size: 4;
-        }
-
-        iframe {
-            margin: auto;
-        }
-
-        a.url {
-            word-break: break-all;
-        }
-
-        a:active,
-        a:hover {
-            outline: 0px;
-        }
-
-        .in-text-selection,
-        ::selection {
-            text-shadow: none;
-            background: var(--select-text-bg-color);
-            color: var(--select-text-font-color);
-        }
-
-        #write {
-            margin: 0px auto;
-            height: auto;
-            width: inherit;
-            word-break: normal;
-            overflow-wrap: break-word;
-            position: relative;
-            white-space: normal;
-            overflow-x: visible;
-            padding-top: 36px;
-        }
-
-        #write.first-line-indent p {
-            text-indent: 2em;
-        }
-
-        #write.first-line-indent li p,
-        #write.first-line-indent p * {
-            text-indent: 0px;
-        }
-
-        #write.first-line-indent li {
-            margin-left: 2em;
-        }
-
-        .for-image #write {
-            padding-left: 8px;
-            padding-right: 8px;
-        }
-
-        body.typora-export {
-            padding-left: 30px;
-            padding-right: 30px;
-        }
-
-        .typora-export .footnote-line,
-        .typora-export li,
-        .typora-export p {
-            white-space: pre-wrap;
-        }
-
-        .typora-export .task-list-item input {
-            pointer-events: none;
-        }
-
-        @media screen and (max-width: 500px) {
-            body.typora-export {
-                padding-left: 0px;
-                padding-right: 0px;
-            }
-
-            #write {
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-
-            .CodeMirror-sizer {
-                margin-left: 0px !important;
-            }
-
-            .CodeMirror-gutters {
-                display: none !important;
-            }
-        }
-
-        #write li>figure:last-child {
-            margin-bottom: 0.5rem;
-        }
-
-        #write ol,
-        #write ul {
-            position: relative;
-        }
-
-        img {
-            max-width: 100%;
-            vertical-align: middle;
-            image-orientation: from-image;
-        }
-
-        button,
-        input,
-        select,
-        textarea {
-            color: inherit;
-            font: inherit;
-        }
-
-        input[type="checkbox"],
-        input[type="radio"] {
-            line-height: normal;
-            padding: 0px;
-        }
-
-        *,
-        ::after,
-        ::before {
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        #write h1,
-        #write h2,
-        #write h3,
-        #write h4,
-        #write h5,
-        #write h6,
-        #write p,
-        #write pre {
-            width: inherit;
-        }
-
-        #write h1,
-        #write h2,
-        #write h3,
-        #write h4,
-        #write h5,
-        #write h6,
-        #write p {
-            position: relative;
-        }
-
-        p {
-            line-height: inherit;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            break-after: avoid-page;
-            break-inside: avoid;
-            orphans: 4;
-        }
-
-        p {
-            orphans: 4;
-        }
-
-        h1 {
-            font-size: 2rem;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-        }
-
-        h3 {
-            font-size: 1.6rem;
-        }
-
-        h4 {
-            font-size: 1.4rem;
-        }
-
-        h5 {
-            font-size: 1.2rem;
-        }
-
-        h6 {
-            font-size: 1rem;
-        }
-
-        .md-math-block,
-        .md-rawblock,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p {
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .md-blockmeta {
-            color: rgb(204, 204, 204);
-            font-weight: 700;
-            font-style: italic;
-        }
-
-        a {
-            cursor: pointer;
-        }
-
-        sup.md-footnote {
-            padding: 2px 4px;
-            background-color: rgba(238, 238, 238, 0.7);
-            color: rgb(85, 85, 85);
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        sup.md-footnote a,
-        sup.md-footnote a:hover {
-            color: inherit;
-            text-transform: inherit;
-            text-decoration: inherit;
-        }
-
-        #write input[type="checkbox"] {
-            cursor: pointer;
-            width: inherit;
-            height: inherit;
-        }
-
-        figure {
-            overflow-x: auto;
-            margin: 1.2em 0px;
-            max-width: calc(100% + 16px);
-            padding: 0px;
-        }
-
-        figure>table {
-            margin: 0px;
-        }
-
-        tr {
-            break-inside: avoid;
-            break-after: auto;
-        }
-
-        thead {
-            display: table-header-group;
-        }
-
-        table {
-            border-collapse: collapse;
-            border-spacing: 0px;
-            width: 100%;
-            overflow: auto;
-            break-inside: auto;
-            text-align: left;
-        }
-
-        table.md-table td {
-            min-width: 32px;
-        }
-
-        .CodeMirror-gutters {
-            border-right: 0px;
-            background-color: inherit;
-        }
-
-        .CodeMirror-linenumber {
-            user-select: none;
-        }
-
-        .CodeMirror {
-            text-align: left;
-        }
-
-        .CodeMirror-placeholder {
-            opacity: 0.3;
-        }
-
-        .CodeMirror pre {
-            padding: 0px 4px;
-        }
-
-        .CodeMirror-lines {
-            padding: 0px;
-        }
-
-        div.hr:focus {
-            cursor: none;
-        }
-
-        #write pre {
-            white-space: pre-wrap;
-        }
-
-        #write.fences-no-line-wrapping pre {
-            white-space: pre;
-        }
-
-        #write pre.ty-contain-cm {
-            white-space: normal;
-        }
-
-        .CodeMirror-gutters {
-            margin-right: 4px;
-        }
-
-        .md-fences {
-            font-size: 0.9rem;
-            display: block;
-            break-inside: avoid;
-            text-align: left;
-            overflow: visible;
-            white-space: pre;
-            background: inherit;
-            position: relative !important;
-        }
-
-        .md-fences-adv-panel {
-            width: 100%;
-            margin-top: 10px;
-            text-align: center;
-            padding-top: 0px;
-            padding-bottom: 8px;
-            overflow-x: auto;
-        }
-
-        #write .md-fences.mock-cm {
-            white-space: pre-wrap;
-        }
-
-        .md-fences.md-fences-with-lineno {
-            padding-left: 0px;
-        }
-
-        #write.fences-no-line-wrapping .md-fences.mock-cm {
-            white-space: pre;
-            overflow-x: auto;
-        }
-
-        .md-fences.mock-cm.md-fences-with-lineno {
-            padding-left: 8px;
-        }
-
-        .CodeMirror-line,
-        twitterwidget {
-            break-inside: avoid;
-        }
-
-        .footnotes {
-            opacity: 0.8;
-            font-size: 0.9rem;
-            margin-top: 1em;
-            margin-bottom: 1em;
-        }
-
-        .footnotes+.footnotes {
-            margin-top: 0px;
-        }
-
-        .md-reset {
-            margin: 0px;
-            padding: 0px;
-            border: 0px;
-            outline: 0px;
-            vertical-align: top;
-            background: 0px 0px;
-            text-decoration: none;
-            text-shadow: none;
-            float: none;
-            position: static;
-            width: auto;
-            height: auto;
-            white-space: nowrap;
-            cursor: inherit;
-            -webkit-tap-highlight-color: transparent;
-            line-height: normal;
-            font-weight: 400;
-            text-align: left;
-            box-sizing: content-box;
-            direction: ltr;
-        }
-
-        li div {
-            padding-top: 0px;
-        }
-
-        blockquote {
-            margin: 1rem 0px;
-        }
-
-        li .mathjax-block,
-        li p {
-            margin: 0.5rem 0px;
-        }
-
-        li blockquote {
-            margin: 1rem 0px;
-        }
-
-        li {
-            margin: 0px;
-            position: relative;
-        }
-
-        blockquote> :last-child {
-            margin-bottom: 0px;
-        }
-
-        blockquote> :first-child,
-        li> :first-child {
-            margin-top: 0px;
-        }
-
-        .footnotes-area {
-            color: rgb(136, 136, 136);
-            margin-top: 0.714rem;
-            padding-bottom: 0.143rem;
-            white-space: normal;
-        }
-
-        #write .footnote-line {
-            white-space: pre-wrap;
-        }
-
-        @media print {
-
-            body,
-            html {
-                border: 1px solid transparent;
-                height: 99%;
-                break-after: avoid;
-                break-before: avoid;
-                font-variant-ligatures: no-common-ligatures;
-            }
-
-            #write {
-                margin-top: 0px;
-                padding-top: 0px;
-                border-color: transparent !important;
-            }
-
-            .typora-export * {
-                -webkit-print-color-adjust: exact;
-            }
-
-            .typora-export #write {
-                break-after: avoid;
-            }
-
-            .typora-export #write::after {
-                height: 0px;
-            }
-
-            .is-mac table {
-                break-inside: avoid;
-            }
-
-            .typora-export-show-outline .typora-export-sidebar {
-                display: none;
-            }
-        }
-
-        .footnote-line {
-            margin-top: 0.714em;
-            font-size: 0.7em;
-        }
-
-        a img,
-        img a {
-            cursor: pointer;
-        }
-
-        pre.md-meta-block {
-            font-size: 0.8rem;
-            min-height: 0.8rem;
-            white-space: pre-wrap;
-            background: rgb(204, 204, 204);
-            display: block;
-            overflow-x: hidden;
-        }
-
-        p>.md-image:only-child:not(.md-img-error) img,
-        p>img:only-child {
-            display: block;
-            margin: auto;
-        }
-
-        #write.first-line-indent p>.md-image:only-child:not(.md-img-error) img {
-            left: -2em;
-            position: relative;
-        }
-
-        p>.md-image:only-child {
-            display: inline-block;
-            width: 100%;
-        }
-
-        #write .MathJax_Display {
-            margin: 0.8em 0px 0px;
-        }
-
-        .md-math-block {
-            width: 100%;
-        }
-
-        .md-math-block:not(:empty)::after {
-            display: none;
-        }
-
-        .MathJax_ref {
-            fill: currentcolor;
-        }
-
-        [contenteditable="true"]:active,
-        [contenteditable="true"]:focus,
-        [contenteditable="false"]:active,
-        [contenteditable="false"]:focus {
-            outline: 0px;
-            box-shadow: none;
-        }
-
-        .md-task-list-item {
-            position: relative;
-            list-style-type: none;
-        }
-
-        .task-list-item.md-task-list-item {
-            padding-left: 0px;
-        }
-
-        .md-task-list-item>input {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            margin-left: -1.2em;
-            margin-top: calc(1em - 10px);
-            border: none;
-        }
-
-        .math {
-            font-size: 1rem;
-        }
-
-        .md-toc {
-            min-height: 3.58rem;
-            position: relative;
-            font-size: 0.9rem;
-            border-radius: 10px;
-        }
-
-        .md-toc-content {
-            position: relative;
-            margin-left: 0px;
-        }
-
-        .md-toc-content::after,
-        .md-toc::after {
-            display: none;
-        }
-
-        .md-toc-item {
-            display: block;
-            color: rgb(65, 131, 196);
-        }
-
-        .md-toc-item a {
-            text-decoration: none;
-        }
-
-        .md-toc-inner:hover {
-            text-decoration: underline;
-        }
-
-        .md-toc-inner {
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .md-toc-h1 .md-toc-inner {
-            margin-left: 0px;
-            font-weight: 700;
-        }
-
-        .md-toc-h2 .md-toc-inner {
-            margin-left: 2em;
-        }
-
-        .md-toc-h3 .md-toc-inner {
-            margin-left: 4em;
-        }
-
-        .md-toc-h4 .md-toc-inner {
-            margin-left: 6em;
-        }
-
-        .md-toc-h5 .md-toc-inner {
-            margin-left: 8em;
-        }
-
-        .md-toc-h6 .md-toc-inner {
-            margin-left: 10em;
-        }
-
-        @media screen and (max-width: 48em) {
-            .md-toc-h3 .md-toc-inner {
-                margin-left: 3.5em;
-            }
-
-            .md-toc-h4 .md-toc-inner {
-                margin-left: 5em;
-            }
-
-            .md-toc-h5 .md-toc-inner {
-                margin-left: 6.5em;
-            }
-
-            .md-toc-h6 .md-toc-inner {
-                margin-left: 8em;
-            }
-        }
-
-        a.md-toc-inner {
-            font-size: inherit;
-            font-style: inherit;
-            font-weight: inherit;
-            line-height: inherit;
-        }
-
-        .footnote-line a:not(.reversefootnote) {
-            color: inherit;
-        }
-
-        .md-attr {
-            display: none;
-        }
-
-        .md-fn-count::after {
-            content: ".";
-        }
-
-        code,
-        pre,
-        samp,
-        tt {
-            font-family: var(--monospace);
-        }
-
-        kbd {
-            margin: 0px 0.1em;
-            padding: 0.1em 0.6em;
-            font-size: 0.8em;
-            color: rgb(36, 39, 41);
-            background: rgb(255, 255, 255);
-            border: 1px solid rgb(173, 179, 185);
-            border-radius: 3px;
-            box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset;
-            white-space: nowrap;
-            vertical-align: middle;
-        }
-
-        .md-comment {
-            color: rgb(162, 127, 3);
-            opacity: 0.6;
-            font-family: var(--monospace);
-        }
-
-        code {
-            text-align: left;
-            vertical-align: initial;
-        }
-
-        a.md-print-anchor {
-            white-space: pre !important;
-            border-width: initial !important;
-            border-style: none !important;
-            border-color: initial !important;
-            display: inline-block !important;
-            position: absolute !important;
-            width: 1px !important;
-            right: 0px !important;
-            outline: 0px !important;
-            background: 0px 0px !important;
-            text-decoration: initial !important;
-            text-shadow: initial !important;
-        }
-
-        .os-windows.monocolor-emoji .md-emoji {
-            font-family: "Segoe UI Symbol", sans-serif;
-        }
-
-        .md-diagram-panel>svg {
-            max-width: 100%;
-        }
-
-        [lang="flow"] svg,
-        [lang="mermaid"] svg {
-            max-width: 100%;
-            height: auto;
-        }
-
-        [lang="mermaid"] .node text {
-            font-size: 1rem;
-        }
-
-        table tr th {
-            border-bottom: 0px;
-        }
-
-        video {
-            max-width: 100%;
-            display: block;
-            margin: 0px auto;
-        }
-
-        iframe {
-            max-width: 100%;
-            width: 100%;
-            border: none;
-        }
-
-        .highlight td,
-        .highlight tr {
-            border: 0px;
-        }
-
-        mark {
-            background: rgb(255, 255, 0);
-            color: rgb(0, 0, 0);
-        }
-
-        .md-html-inline .md-plain,
-        .md-html-inline strong,
-        mark .md-inline-math,
-        mark strong {
-            color: inherit;
-        }
-
-        .md-expand mark .md-meta {
-            opacity: 0.3 !important;
-        }
-
-        mark .md-meta {
-            color: rgb(0, 0, 0);
-        }
-
-        @media print {
-
-            .typora-export h1,
-            .typora-export h2,
-            .typora-export h3,
-            .typora-export h4,
-            .typora-export h5,
-            .typora-export h6 {
-                break-inside: avoid;
-            }
-        }
-
-        .md-diagram-panel .messageText {
-            stroke: none !important;
-        }
-
-        .md-diagram-panel .start-state {
-            fill: var(--node-fill);
-        }
-
-        .md-diagram-panel .edgeLabel rect {
-            opacity: 1 !important;
-        }
-
-        .md-fences.md-fences-math {
-            font-size: 1em;
-        }
-
-        .md-fences-advanced:not(.md-focus) {
-            padding: 0px;
-            white-space: nowrap;
-            border: 0px;
-        }
-
-        .md-fences-advanced:not(.md-focus) {
-            background: inherit;
-        }
-
-        .typora-export-show-outline .typora-export-content {
-            max-width: 1440px;
-            margin: auto;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .typora-export-sidebar {
-            width: 300px;
-            font-size: 0.8rem;
-            margin-top: 80px;
-            margin-right: 18px;
-        }
-
-        .typora-export-show-outline #write {
-            --webkit-flex: 2;
-            flex: 2 1 0%;
-        }
-
-        .typora-export-sidebar .outline-content {
-            position: fixed;
-            top: 0px;
-            max-height: 100%;
-            overflow: hidden auto;
-            padding-bottom: 30px;
-            padding-top: 60px;
-            width: 300px;
-        }
-
-        @media screen and (max-width: 1024px) {
-
-            .typora-export-sidebar,
-            .typora-export-sidebar .outline-content {
-                width: 240px;
-            }
-        }
-
-        @media screen and (max-width: 800px) {
-            .typora-export-sidebar {
-                display: none;
-            }
-        }
-
-        .outline-content li,
-        .outline-content ul {
-            margin-left: 0px;
-            margin-right: 0px;
-            padding-left: 0px;
-            padding-right: 0px;
-            list-style: none;
-        }
-
-        .outline-content ul {
-            margin-top: 0px;
-            margin-bottom: 0px;
-        }
-
-        .outline-content strong {
-            font-weight: 400;
-        }
-
-        .outline-expander {
-            width: 1rem;
-            height: 1.42857rem;
-            position: relative;
-            display: table-cell;
-            vertical-align: middle;
-            cursor: pointer;
-            padding-left: 4px;
-        }
-
-        .outline-expander::before {
-            content: "";
-            position: relative;
-            font-family: Ionicons;
-            display: inline-block;
-            font-size: 8px;
-            vertical-align: middle;
-        }
-
-        .outline-item {
-            padding-top: 3px;
-            padding-bottom: 3px;
-            cursor: pointer;
-        }
-
-        .outline-expander:hover::before {
-            content: "";
-        }
-
-        .outline-h1>.outline-item {
-            padding-left: 0px;
-        }
-
-        .outline-h2>.outline-item {
-            padding-left: 1em;
-        }
-
-        .outline-h3>.outline-item {
-            padding-left: 2em;
-        }
-
-        .outline-h4>.outline-item {
-            padding-left: 3em;
-        }
-
-        .outline-h5>.outline-item {
-            padding-left: 4em;
-        }
-
-        .outline-h6>.outline-item {
-            padding-left: 5em;
-        }
-
-        .outline-label {
-            cursor: pointer;
-            display: table-cell;
-            vertical-align: middle;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .outline-label:hover {
-            text-decoration: underline;
-        }
-
-        .outline-item:hover {
-            border-color: rgb(245, 245, 245);
-            background-color: var(--item-hover-bg-color);
-        }
-
-        .outline-item:hover {
-            margin-left: -28px;
-            margin-right: -28px;
-            border-left: 28px solid transparent;
-            border-right: 28px solid transparent;
-        }
-
-        .outline-item-single .outline-expander::before,
-        .outline-item-single .outline-expander:hover::before {
-            display: none;
-        }
-
-        .outline-item-open>.outline-item>.outline-expander::before {
-            content: "";
-        }
-
-        .outline-children {
-            display: none;
-        }
-
-        .info-panel-tab-wrapper {
-            display: none;
-        }
-
-        .outline-item-open>.outline-children {
-            display: block;
-        }
-
-        .typora-export .outline-item {
-            padding-top: 1px;
-            padding-bottom: 1px;
-        }
-
-        .typora-export .outline-item:hover {
-            margin-right: -8px;
-            border-right: 8px solid transparent;
-        }
-
-        .typora-export .outline-expander::before {
-            content: "+";
-            font-family: inherit;
-            top: -1px;
-        }
-
-        .typora-export .outline-expander:hover::before,
-        .typora-export .outline-item-open>.outline-item>.outline-expander::before {
-            content: "−";
-        }
-
-        .typora-export-collapse-outline .outline-children {
-            display: none;
-        }
-
-        .typora-export-collapse-outline .outline-item-open>.outline-children,
-        .typora-export-no-collapse-outline .outline-children {
-            display: block;
-        }
-
-        .typora-export-no-collapse-outline .outline-expander::before {
-            content: "" !important;
-        }
-
-        .typora-export-show-outline .outline-item-active>.outline-item .outline-label {
-            font-weight: 700;
-        }
-
-        .md-inline-math-container mjx-container {
-            zoom: 0.95;
-        }
-
-
-        :root {
-            --side-bar-bg-color: #fafafa;
-            --control-text-color: #777;
-        }
-
-        @include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
-
-        /* open-sans-regular - latin-ext_latin */
-        /* open-sans-italic - latin-ext_latin */
-        /* open-sans-700 - latin-ext_latin */
-        /* open-sans-700italic - latin-ext_latin */
-        html {
-            font-size: 16px;
-            -webkit-font-smoothing: antialiased;
-        }
-
         body {
-            font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
-            color: rgb(51, 51, 51);
-            line-height: 1.6;
+            font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: #f9f9f9;
         }
 
-        #write {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 30px;
-            padding-bottom: 100px;
-        }
-
-        @media only screen and (min-width: 1400px) {
-            #write {
-                max-width: 1024px;
-            }
-        }
-
-        @media only screen and (min-width: 1800px) {
-            #write {
-                max-width: 1200px;
-            }
-        }
-
-        #write>ul:first-child,
-        #write>ol:first-child {
-            margin-top: 30px;
-        }
-
-        a {
-            color: #4183C4;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
             position: relative;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            font-weight: bold;
-            line-height: 1.4;
-            cursor: text;
+            overflow: hidden;
         }
 
-        h1:hover a.anchor,
-        h2:hover a.anchor,
-        h3:hover a.anchor,
-        h4:hover a.anchor,
-        h5:hover a.anchor,
-        h6:hover a.anchor {
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            background: var(--dark-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--dark-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: var(--secondary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem;
+            background: var(--light-color);
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid var(--light-color);
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--light-color);
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            background: var(--footer-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            margin: 0 1rem;
             text-decoration: none;
         }
 
-        h1 tt,
-        h1 code {
-            font-size: inherit;
+        .footer-links a:hover {
+            text-decoration: underline;
         }
 
-        h2 tt,
-        h2 code {
-            font-size: inherit;
-        }
-
-        h3 tt,
-        h3 code {
-            font-size: inherit;
-        }
-
-        h4 tt,
-        h4 code {
-            font-size: inherit;
-        }
-
-        h5 tt,
-        h5 code {
-            font-size: inherit;
-        }
-
-        h6 tt,
-        h6 code {
-            font-size: inherit;
-        }
-
-        h1 {
-            font-size: 2.25em;
-            line-height: 1.2;
-            border-bottom: 1px solid #eee;
-        }
-
-        h2 {
-            font-size: 1.75em;
-            line-height: 1.225;
-            border-bottom: 1px solid #eee;
-        }
-
-        /*@media print {
-    .typora-export h1,
-    .typora-export h2 {
-        border-bottom: none;
-        padding-bottom: initial;
-    }
-
-    .typora-export h1::after,
-    .typora-export h2::after {
-        content: "";
-        display: block;
-        height: 100px;
-        margin-top: -96px;
-        border-top: 1px solid #eee;
-    }
-}*/
-
-        h3 {
-            font-size: 1.5em;
-            line-height: 1.43;
-        }
-
-        h4 {
-            font-size: 1.25em;
-        }
-
-        h5 {
-            font-size: 1em;
-        }
-
-        h6 {
-            font-size: 1em;
-            color: #777;
-        }
-
-        p,
-        blockquote,
-        ul,
-        ol,
-        dl,
-        table {
-            margin: 0.8em 0;
-        }
-
-        li>ol,
-        li>ul {
-            margin: 0 0;
-        }
-
-        hr {
-            height: 2px;
-            padding: 0;
-            margin: 16px 0;
-            background-color: #e7e7e7;
-            border: 0 none;
-            overflow: hidden;
-            box-sizing: content-box;
-        }
-
-        li p.first {
-            display: inline-block;
-        }
-
-        ul,
-        ol {
-            padding-left: 30px;
-        }
-
-        ul:first-child,
-        ol:first-child {
-            margin-top: 0;
-        }
-
-        ul:last-child,
-        ol:last-child {
-            margin-bottom: 0;
-        }
-
-        blockquote {
-            border-left: 4px solid #dfe2e5;
-            padding: 0 15px;
-            color: #777777;
-        }
-
-        blockquote blockquote {
-            padding-right: 0;
-        }
-
-        table {
-            padding: 0;
-            word-break: initial;
-        }
-
-        table tr {
-            border: 1px solid #dfe2e5;
-            margin: 0;
-            padding: 0;
-        }
-
-        table tr:nth-child(2n),
-        thead {
-            background-color: #f8f8f8;
-        }
-
-        table th {
-            font-weight: bold;
-            border: 1px solid #dfe2e5;
-            border-bottom: 0;
-            margin: 0;
-            padding: 6px 13px;
-        }
-
-        table td {
-            border: 1px solid #dfe2e5;
-            margin: 0;
-            padding: 6px 13px;
-        }
-
-        table th:first-child,
-        table td:first-child {
-            margin-top: 0;
-        }
-
-        table th:last-child,
-        table td:last-child {
-            margin-bottom: 0;
-        }
-
-        .CodeMirror-lines {
-            padding-left: 4px;
-        }
-
-        .code-tooltip {
-            box-shadow: 0 1px 1px 0 rgba(0, 28, 36, .3);
-            border-top: 1px solid #eef2f2;
-        }
-
-        .md-fences,
-        code,
-        tt {
-            border: 1px solid #e7eaed;
-            background-color: #f8f8f8;
-            border-radius: 3px;
-            padding: 0;
-            padding: 2px 4px 0px 4px;
-            font-size: 0.9em;
-        }
-
-        code {
-            background-color: #f3f4f4;
-            padding: 0 2px 0 2px;
-        }
-
-        .md-fences {
-            margin-bottom: 15px;
-            margin-top: 15px;
-            padding-top: 8px;
-            padding-bottom: 6px;
-        }
-
-
-        .md-task-list-item>input {
-            margin-left: -1.3em;
-        }
-
-        @media print {
-            html {
-                font-size: 13px;
-            }
-
-            table,
-            pre {
-                page-break-inside: avoid;
-            }
-
-            pre {
-                word-wrap: break-word;
-            }
-        }
-
-        .md-fences {
-            background-color: #f8f8f8;
-        }
-
-        #write pre.md-meta-block {
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
             padding: 1rem;
-            font-size: 85%;
-            line-height: 1.45;
-            background-color: #f7f7f7;
-            border: 0;
-            border-radius: 3px;
-            color: #777777;
-            margin-top: 0 !important;
+            font-family: "PingFang SC", "Microsoft YaHei", monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
         }
 
-        .mathjax-block>.code-tooltip {
-            bottom: .375rem;
+        .instructor-list {
+            display: flex;
+            flex-wrap: wrap;
+            /* 允许换行 */
+            gap: 2rem;
+            /* 控制教师之间的间距 */
         }
 
-        .md-mathjax-midline {
-            background: #fafafa;
+        .instructor {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex: 0 0 auto;
+            width: calc(50% - 1rem);
+            /* 每行显示两个教师 */
         }
 
-        #write>h3.md-focus:before {
-            left: -1.5625rem;
-            top: .375rem;
+        .instructor img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 2rem;
+            border: 3px solid var(--secondary-color);
         }
 
-        #write>h4.md-focus:before {
-            left: -1.5625rem;
-            top: .285714286rem;
+        .instructor-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
         }
 
-        #write>h5.md-focus:before {
-            left: -1.5625rem;
-            top: .285714286rem;
+        .instructor-info p {
+            margin-bottom: 0.5rem;
         }
 
-        #write>h6.md-focus:before {
-            left: -1.5625rem;
-            top: .285714286rem;
+        .highlight {
+            background-color: #fffde7;
+            padding: 1rem;
+            border-left: 4px solid var(--secondary-color);
+            margin: 1rem 0;
         }
 
-        .md-image>.md-meta {
-            /*border: 1px solid #ddd;*/
-            border-radius: 3px;
-            padding: 2px 0px 0px 4px;
-            font-size: 0.9em;
-            color: inherit;
-        }
+        /* 响应式：移动端竖排显示 */
+        @media (max-width: 768px) {
+            .instructor-list {
+                flex-direction: column;
+                gap: 1rem;
+            }
 
-        .md-tag {
-            color: #a7a7a7;
-            opacity: 1;
-        }
+            .instructor {
+                width: 100%;
+                flex-direction: column;
+                text-align: center;
+            }
 
-        .md-toc {
-            margin-top: 20px;
-            padding-bottom: 20px;
-        }
+            .instructor img {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
 
-        .sidebar-tabs {
-            border-bottom: none;
-        }
+            .instructor-info {
+                text-align: center;
+            }
 
-        #typora-quick-open {
-            border: 1px solid #ddd;
-            background-color: #f8f8f8;
-        }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
 
-        #typora-quick-open-item {
-            background-color: #FAFAFA;
-            border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
-            border-style: solid;
-            border-width: 1px;
-        }
-
-        /** focus mode */
-        .on-focus-mode blockquote {
-            border-left-color: rgba(85, 85, 85, 0.12);
-        }
-
-        header,
-        .context-menu,
-        .megamenu-content,
-        footer {
-            font-family: "Segoe UI", "Arial", sans-serif;
-        }
-
-        .file-node-content:hover .file-node-icon,
-        .file-node-content:hover .file-node-open-state {
-            visibility: visible;
-        }
-
-        .mac-seamless-mode #typora-sidebar {
-            background-color: #fafafa;
-            background-color: var(--side-bar-bg-color);
-        }
-
-        .md-lang {
-            color: #b4654d;
-        }
-
-        /*.html-for-mac {
-    --item-hover-bg-color: #E6F0FE;
-}*/
-
-        #md-notification .btn {
-            border: 0;
-        }
-
-        .dropdown-menu .divider {
-            border-color: #e5e5e5;
-            opacity: 0.4;
-        }
-
-        .ty-preferences .window-content {
-            background-color: #fafafa;
-        }
-
-        .ty-preferences .nav-group-item.active {
-            color: white;
-            background: #999;
-        }
-
-        .menu-item-container a.menu-style-btn {
-            background-color: #f5f8fa;
-            background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0));
+            nav ul li {
+                margin: 0.25rem 0;
+            }
         }
     </style>
-    <title>25 Summer</title>
+
 </head>
 
-<body class='typora-export os-windows'>
-    <div class='typora-export-content'>
-        <div id='write' class=''>
-            <!--<img src="is.png" alt="Logo" style="width: 100%; height: auto;">-->
-            <h1 id='2025-讨论班'><span>2025 Logic Program</span></h1>
-            <h2 id='参会者'><span>1. 参会者</span></h2>
-            <!--<p><span>组织者：何语丛 (yche@smail.nju.edu.cn)；张欣爽 (Zhangxs@smail.nju.edu.cn)</span></p>-->
-            <ul>
-                <li>主办方：<a href="https://is.nju.edu.cn/main.htm">南京大学智能科学与技术学院</a>，<a
-                        href='https://daiwz.net/'><span>戴望州</span></a>老师课题组</li>
-                <li>课题组主页：<a href="https://www.lamda.nju.edu.cn/lamdasz/">LAMDA-SZ</a></li>
-                <li>组织者：<span>何语丛、苏浩</span></li>
-                <li>参与者：<span>何语丛、宋奥齐、周桢瑜、苏浩、张欣爽、周昱辙、袁雪容、桑世杰、李墨晗、王炯达、邱昱宁、胡亦宽、苏珉乐</span>
-                </li>
-            </ul>
-
-            <h2><span>2. 注意事项</span></h2>
-          <span>同时进行 <a href=https://xinshuangz.github.io/2025_summer_seminar>2025 Summer 讨论班</a> </span>
-            <h2><span>3. 参考资料</span></h2>
-            <ul>
-                <li><a href=https://www.metalevel.at/prolog>[1]</a> The Power of Prolog</li>
-                <li><a href=https://www.lamda.nju.edu.cn/abl-reading-2023>[2]</a> Craft 3</li>
-                <li><a href=https://potassco.org>[3]</a> Potassco guide</li>
-                <li><a href=https://www.ilasp.com/?no_animation>[4]</a> ILASP systems</li>
-            </ul>
-
-            <h2 id='安排'><span>4. 安排</span></h2>
-            <!--<p><span>日程：<b>每周二</b></span></p>-->
-			<ul>
-                <li>时间：<b>7月1日开始，下午2点</b></li>
-                <li>地点：南雍楼东515<b> </b></li>
-               <li>线上参会：<strong>腾讯会议 (993-1671-7810)</strong>，或<a
-                        href='https://meeting.tencent.com/dm/orpXQJqkSvqR'>点击链接入会</a> 密码：<b>6666</b></li>
-            </ul>
-
-            <!--<p><span>会议密码：<b>6666</b></span></p>-->
-            <!--<span><a href=https://github.com/heart-fresh/2024-Summer-Seminar/tree/main/paper%20list>论文合集</a> </span>-->
-            <figure>
-                <table>
-                    <thead>
-                        <tr>
-                            <th><span>序号</span></th>
-                            <th><span>时间</span></th>
-                            <th><span>主讲人</span></th>
-                            <th><span>参考</span></th>
-                            <th><span>主题</span></th>
-                            <th><span>展示</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td rowspan="1" style="width: 20px;"><span>1</span></td>
-                            <td rowspan="1" style="width: 50px;"><span>2025.07.01 </span></td>
-                            <td style="width: 50px;"><span>
-                                    <span>苏珉乐</span>
-                                    <span> 胡亦宽</span>
-                                </span></td>
-                            <td rowspan="1" style="width: 100px;">
-                                <span><a href=https://www.metalevel.at/prolog>
-                                        [1]</a> 0~5/16节</span>
-                                <span> </span>
-                            </td>
-                            <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
-                                <div style="text-align: center; font-weight: bold;">
-                                    逻辑编程与 Prolog 基础
-                                </div>
-                                <ul style="padding-left: 20px; margin: 0;">
-                                    <li>Introduction</li>
-                                    <li>Facets of Prolog</li>
-                                    <li>Logical Foundations</li>
-                                    <li>Basic Concepts</li>
-                                    <li>Data Structures</li>
-                                    <li>Reading Prolog Programs</li>
-                                    <li>Global Variables</li>
-                                </ul>
-                            </td>
-                            <td rowspan="1" style="width: 50px;"><span><a href=https://github.com/XinShuangZ/2025_logic_program/tree/main/slides>
-                                        slides</a></span></td>
-                        </tr>
-
-                        <tr>
-                            <td rowspan="1" style="width: 20px;"><span>2</span></td>
-                            <td rowspan="1" style="width: 50px;"><span> 2025.07.05</span></td>
-                            <td style="width: 50px;"><span>苏浩 </span></td>
-                            <td rowspan="1" style="width: 100px;">
-                                <span><a href=https://www.metalevel.at/prolog>
-                                        [1]</a> 6~8/15/26节</span>
-                                <span> </span><br>
-                                <span><a href=https://www.metalevel.at/prolog>
-                                        [2]</a> cut</span>
-
-                            </td>
-                            <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
-                                <div style="text-align: center; font-weight: bold;">
-                                    Prolog 的程序写作
-                                </div>
-                                <ul style="padding-left: 20px; margin: 0;">
-                                    <li>Writing Prolog Programs</li>
-                                    <li>Termination</li>
-                                    <li>Nontermination</li>
-                                    <li>Sorting and Searching</li>
-                                    <li>Logic Puzzles</li>
-                                    <li>cut</li>
-                                </ul>
-
-                            </td>
-                            <td rowspan="1" style="width: 50px;"><span><a href=https://github.com/XinShuangZ/2025_logic_program/tree/main/slides>
-                                        slides</a></span></td>
-                        </tr>
-                        <tr>
-                            <td rowspan="1" style="width: 20px;"><span>3</span></td>
-                            <td rowspan="1" style="width: 50px;">2025.07.07<span>
-                                </span></td>
-                            <td style="width: 50px;">
-                                <span> 周昱辙</span>
-
-                                <span> 宋奥齐</span>
-                                </span>
-                            </td>
-                            <td rowspan="1" style="width: 100px;">
-                                <span><a href=https://www.metalevel.at/prolog>
-                                        [1]</a> 10~14节</span>
-
-                            </td>
-                            <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
-                                <div style="text-align: center; font-weight: bold;">
-                                    Prolog 的逻辑纯度与调试
-                                </div>
-
-                                <ul style="padding-left: 20px; margin: 0;">
-                                    <li>Higher-order Predicates</li>
-                                    <li>Logical Purity</li>
-                                    <li>Declarative Testing</li>
-                                    <li>Declarative Debugging</li>
-                                    <li>Definite Clause Grammars</li>
-                                </ul>
-
-
-                            </td>
-                            <td rowspan="1" style="width: 50px;"><span><a href=>
-                                        slides</a></span></td>
-                        </tr>
-                        <tr>
-                            <td rowspan="1" style="width: 20px;"><span>4</span></td>
-                            <td rowspan="1" style="width: 50px;">2025.07.09<span>
-                                </span></td>
-                            <td style="width: 50px;"><span> 张欣爽</span>
-                                <span>桑世杰</span>
-                                </span>
-                            </td>
-                            <td rowspan="1" style="width: 100px;">
-                                <span><a href=https://www.metalevel.at/prolog>
-                                        [1]</a> 17/18/21/25节</span>
-
-                            </td>
-                            <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
-                                <div style="text-align: center; font-weight: bold;">
-                                    Prolog 的应用
-                                </div>
-                                <ul style="padding-left: 20px; margin: 0;">
-                                    <li>Thinking in States</li>
-                                    <li>Meta-interpreters</li>
-                                    <li>Expert Systems</li>
-                                    <li>Theorem Proving</li>
-                                </ul>
-                            </td>
-                            <td rowspan="1" style="width: 50px;"><span><a href=>
-                                        slides</a></span></td>
-                        </tr>
-                        <tr>
-                            <td rowspan="1" style="width: 20px;"><span>5</span></td>
-                            <td rowspan="1" style="width: 50px;"><span>2025.07.11 </span></td>
-                            <td style="width: 50px;"><span>袁雪容</span>
-
-                            </td>
-                            <td rowspan="1" style="width: 100px;">
-                                <span><a href=https://github.com/potassco/guide/releases/tag/v2.2.0>
-                                        [3]</a> 1~3节</span>
-
-                            </td>
-                            <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
-                                <div style="text-align: center; font-weight: bold;">
-                                    ASP 简介与 Clingo 语法入门
-                                </div>
-                                <ul style="padding-left: 20px; margin: 0;">
-                                    <li>Introduction</li>
-                                    <li>Quickstart</li>
-                                    <li>Input Languages</li>
-                                </ul>
-
-                            </td>
-                            <td rowspan="1" style="width: 50px;"><span><a href=>
-                                        slides</a></span></td>
-                        </tr>
-                        <tr>
-                            <td rowspan="1" style="width: 20px;"><span>6</span></td>
-                            <td rowspan="1" style="width: 50px;"><span>2025.07.15 </span></td>
-                            <td style="width: 50px;"><span> 周桢瑜</span>
-                                <span>李墨晗</span>
-                                </span>
-                            </td>
-                            <td rowspan="1" style="width: 100px;">
-                                <span><a href=https://github.com/potassco/guide/releases/tag/v2.2.0>
-                                        [3]</a> 5~8节</span>
-
-                            </td>
-                            <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
-                                <div style="text-align: center; font-weight: bold;">
-                                    进阶语法
-                                </div>
-                                <ul style="padding-left: 20px; margin: 0;">
-                                    <li>Theory Solving</li>
-                                    <li>Examples</li>
-                                    <li>Command Line Options</li>
-                                    <li>Errors, Warnings, and Infos</li>
-                                </ul>
-                            </td>
-                            <td rowspan="1" style="width: 50px;"><span><a href=>
-                                        slides</a></span></td>
-                        </tr>
-                        <tr>
-                            <td rowspan="1" style="width: 20px;"><span>7</span></td>
-                            <td rowspan="1" style="width: 50px;"><span>2025.07.17 </span></td>
-                            <td style="width: 50px;"><span>何语丛 </span>
-                                                            <span>王炯达</span>
-                                </span></td>
-                            <td rowspan="1" style="width: 100px;">
-                                <span><a href=https://github.com/potassco/guide/releases/tag/v2.2.0>
-                                        [3]</a> 9~11节</span>
-                                <span><a href=https://www.ilasp.com/?no_animation>[4]</a> ILASP</span>
-
-                            </td>
-                            <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
-                                <div style="text-align: center; font-weight: bold;">
-                                    ASP 的应用
-                                </div>
-                                <ul style="padding-left: 20px; margin: 0;"></ul>
-                                <li>Meta-Programming</li>
-                                <li>Heuristic-driven Solving</li>
-                                <li>Optimization and Preference Handling</li>
-                                <li>ILASP</li>
-                                </ul>
-                            </td>
-                            <td rowspan="1" style="width: 50px;"><span><a href=>
-                                        slides</a></span></td>
-                        </tr>
-                        <!--
-                        <tr>
-                            <td><span> </span></td>
-                        </tr>
-                    -->
-
-                        <!--
-                        <tr>
-                            <td rowspan="2"><span>7</span></td>
-                            <td rowspan="2"><span>2024.11.26 </span></td>
-                            <td><span> 苏浩</span></td>
-                            <td style="width: 500px; text-align: left;"><span> <a
-                                        href=https://www.neurosymbolic-ai-journal.com/system/files/nai-paper-794.pdf>
-                                        Towards Learning to Reason: Comparing LLMs with Neuro-Symbolic on Arithmetic
-                                        Relations in Abstract Reasoning</a> (NeSy AI 2024)</span>
-                            </td>
-                            <td style="width: 150px;"><span><a
-                                        href=https://github.com/XinShuangZ/2024-Seminar/blob/main/2024_Fall_slides/%5B7%5DTowards%20Learning%20to%20Reason.pdf>slides</a>
-                                </span></td>
-                        </tr>
-                        <tr>
-                            <td><span> 宋奥齐</span></td>
-                            <td style="width: 500px; text-align: left;"><span> <a href=https://arxiv.org/pdf/2311.11793>
-                                        Universal Optimality of Dijkstra via Beyond-Worst-Case Heaps</a> (FOCS
-                                    2024)</span>
-                            </td>
-                            <td style="width: 150px;"><span><a
-                                        href=https://github.com/XinShuangZ/2024-Seminar/blob/main/2024_Fall_slides/%5B7%5DUniversally%20optimal%20Dijkstra.pptx>slides</a>
-                                </span></td>
-                        </tr>
-                    -->
-                    </tbody>
-                </table>
-            </figure>
-
-
-
-            <style>
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-
-                }
-
-                th,
-                td {
-                    text-align: center;
-
-                }
-
-                th span,
-                td span {
-                    display: block;
-                }
-            </style>
-
-
-            <h2><span>4. 以往研讨会资料</span></h2>
-            <span><a href=https://xinshuangz.github.io/2025-Seminar>2025 Seminar</a>
-            </span>
-            <p>&nbsp;</p>
+<body>
+    <header>
+        <div class="container">
+            <h1>Logic Program Reading Group</h1>
+            <p> Nanjing University - 2025 Summer</p>
         </div>
+    </header>
+
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#about">简介</a></li>
+                <li><a href="#resources">资源</a></li>
+                <li><a href="#schedule">内容</a></li>
+                <li><a href="#assignments">前沿</a></li>
+                <li><a href="#staff">团队</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero">
+            <h1>2025年-逻辑编程-读书班</h1>
+
+            <!-- 新增的并排图片 -->
+            <div style="display:flex; justify-content:center; gap:2rem; margin:1.5rem 0; flex-wrap:wrap;">
+                <img src="D:\meta-llamaLlama-3.1-8B-Instruct\ee817df2-0f1b-4663-b98c-78dbf0aba4eb\南京大学视觉形象规范化标准(jpeg格式文件)\01校标.jpg"
+                    alt="逻辑程序设计示意图" style="max-width:70px; ">
+                <img src="D:\meta-llamaLlama-3.1-8B-Instruct\ee817df2-0f1b-4663-b98c-78dbf0aba4eb\南京大学视觉形象规范化标准(jpeg格式文件)\02中、英文校名.jpg"
+                    alt="AI 应用场景" style="max-width:200px;">
+            </div>
+            <a href="#schedule" class="btn">开始学习</a>
+        </section>
+
+        <section id="about" class="section">
+            <h2>简介</h2>
+            <p>Prolog（<b>Pro</b>gramming in <b>log</b>ic）是一种声明式编程语言，与常见的命令式语言（如
+                C、Python）不同，它基于形式逻辑的原理，特别适合用于符号推理、知识表示、规则学习等任务。本次暑期读书班由南京大学戴望州老师课题组主办，涵盖本、硕、博各年级学生，专注于讲解
+                Prolog
+                编程语言的用法，旨在夯实逻辑和 Prolog 基础，深入学习 Prolog
+                的思想，不涉及数学证明。</p>
+
+            <div class="highlight">
+                <strong>先修要求：</strong> 数理逻辑基础 <a href=https://daiwz.net/teaching>参考课程</a>
+            </div>
+
+            <h3>学习目标</h3>
+            <p>
+                <li>理解声明式编程范式的思想与优势</li>
+                <li>熟练掌握 Prolog 语言语法与语义</li>
+                <li>运用逻辑程序设计解决实际问题</li>
+            </p>
+        </section>
+
+        <section id="resources" class="section">
+            <h2>资源</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">教材参考</div>
+                    <div class="card-body">
+                        <p>
+                            <li><strong>[1] </strong><a href=https://www.metalevel.at/prolog>The Power of Prolog</a>（推荐）
+                            </li>
+                            <li><strong>[2] </strong><a href=https://box.nju.edu.cn/f/9c4ad0a94ec94fa6b0b4/?dl=1>The
+                                    Craft of
+                                    Prolog</a>
+                            <li><strong>[3] </strong><a href=https://potassco.org>ASP</a></li>
+                            <li><strong>[4] </strong><a href=https://www.ilasp.com/?no_animation>ILASP</a></li>
+
+                            </li>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">软件工具</div>
+                    <div class="card-body">
+                        <p>
+                            <li><a href="https://www.swi-prolog.org/">SWI-Prolog</a>（推荐）</li>
+                            <li><a href="https://swish.swi-prolog.org/">Prolog 在线 IDE</a></li>
+                            <li><a href="https://daiwz.net/software/">Run Julia codes in Prolog</a></li>
+                            <li><a href="https://dtai.cs.kuleuven.be/problog">Probabilistic Logic Programming</a></li>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">补充资料</div>
+                    <div class="card-body">
+                        <p>
+                            <li><a href="https://daiwz.net/tutorial">Reasoning & Learning Tutorial</a></li>
+                            <li><a href="https://www.lamda.nju.edu.cn/abl-reading-2023/">2023年 Prolog 读书班</a></li>
+                            <li><a href="http://www.lunarnai.cn/2017/11/16/watermelon-chap-15/">西瓜书第15章 规则学习</a></li>
+                            <li><a href="https://xinshuangz.github.io/IToC">计算理论 IToC 导读</a></li>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 1em;">Prolog 示例代码</h3>
+
+
+            <div class="code-block" style="font-family: Consolas, 'Courier New', monospace;">
+                <pre><code class="language-prolog">% 明太祖朱元璋家族（简化版）
+
+parent(朱元璋, 朱标).
+parent(朱元璋, 朱棣).
+parent(朱标, 朱允炆).
+parent(朱棣, 朱高炽).
+parent(马皇后, 朱标).
+
+father(X, Y) :- parent(X, Y), male(X).
+mother(X, Y) :- parent(X, Y), female(X).
+grandparent(X, Z) :- parent(X, Y), parent(Y, Z).
+
+male(朱元璋).  
+male(朱标).
+male(朱棣).
+male(朱允炆).
+male(朱高炽).
+
+female(马皇后).   % 朱元璋正妻
+
+% Prolog 查询示例
+% ?- father(X, 朱标).          % 朱标的父亲是谁？   X = 朱元璋
+% ?- grandparent(朱元璋, 朱允炆).   % 朱元璋是朱允炆的祖父吗？  true
+
+% 中国历史小故事：
+% 明太祖朱元璋驱除鞑虏，建立明朝，登基为帝，定都南京，其太子朱标英年早逝，隔代传位给皇太孙朱允炆，是为建文帝。
+% 建文帝即位后开始削藩，引起四叔燕王朱棣（朱元璋第四子）不满，发动靖难之役起兵造反，最终攻破南京，建文帝不知所踪。
+% 朱棣即位，是为永乐帝，据传派郑和下西洋的目的之一是寻找失踪的建文帝。永乐帝在位期间，迁都北京，而南京保留为陪都。
+</code></pre>
+            </div>
+        </section>
+
+        <section id="schedule" class="section">
+            <h2>内容</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: center;"><span>序号</span></th>
+                        <th style="text-align: center;"><span>时间</span></th>
+                        <th style="text-align: center;"><span>主讲人</span></th>
+                        <th style="text-align: center;"><span>参考</span></th>
+                        <th style="text-align: center;"><span>主题</span></th>
+                        <th style="text-align: center;"><span>录播</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="1" style="text-align: center;width: 20px;"><span>1</span></td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span>2025.07.01 </span></td>
+                        <td style="text-align: center;width: 50px;"><span>
+                                <span>苏珉乐</span>
+                                <p> 胡亦宽</p>
+                            </span></td>
+                        <td rowspan="1" style="text-align: center;width: 100px;">
+                            <span><a href=https://www.metalevel.at/prolog>
+                                    [1]</a> 0~5/16节</span>
+                            <span> </span>
+                        </td>
+                        <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
+                            <div style="text-align: center; font-weight: bold;">
+                                逻辑编程与 Prolog 基础
+                            </div>
+                            <ul style="padding-left: 20px; margin: 0;">
+                                <li>Introduction</li>
+                                <li>Facets of Prolog</li>
+                                <li>Logical Foundations</li>
+                                <li>Basic Concepts</li>
+                                <li>Data Structures</li>
+                                <li>Reading Prolog Programs</li>
+                                <li>Global Variables</li>
+                            </ul>
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span><a
+                                    href=https://www.bilibili.com/video/BV1nHu1zME6c/?share_source=copy_web&vd_source=2e7bbf9a3c6e14105c4437cf749691ed>
+                                    B站视频</a></span></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="1" style="text-align: center;width: 20px;"><span>2</span></td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span> 2025.07.05</span></td>
+                        <td style="text-align: center;width: 50px;"><span>苏浩 </span></td>
+                        <td rowspan="1" style="text-align: center;width: 100px;">
+                            <span><a href=https://www.metalevel.at/prolog>
+                                    [1]</a> 6~8/15/26节</span>
+                            <span> </span><br>
+                            <p><a href=https://www.lamda.nju.edu.cn/abl-reading-2023>
+                                    [2]</a> Cut</p>
+
+                        </td>
+                        <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
+                            <div style="text-align: center; font-weight: bold;">
+                                Prolog 的程序写作
+                            </div>
+                            <ul style="padding-left: 20px; margin: 0;">
+                                <li>Writing Prolog Programs</li>
+                                <li>Termination</li>
+                                <li>Nontermination</li>
+                                <li>Sorting and Searching</li>
+                                <li>Logic Puzzles</li>
+                                <li>Cut</li>
+                            </ul>
+
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span><a
+                                    href=https://www.bilibili.com/video/BV1npu1zqEno/?share_source=copy_web&vd_source=2e7bbf9a3c6e14105c4437cf749691ed>
+                                    B站视频</a></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" style="text-align: center;width: 20px;"><span>3</span></td>
+                        <td rowspan="1" style="text-align: center;width: 50px;">2025.07.07<span>
+                            </span></td>
+                        <td style="text-align: center;width: 50px;">
+                            <span> 周昱辙</span>
+
+                            <p> 宋奥齐</p>
+                            </span>
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 100px;">
+                            <span><a href=https://www.metalevel.at/prolog>
+                                    [1]</a> 10~14节</span>
+
+                        </td>
+                        <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
+                            <div style="text-align: center; font-weight: bold;">
+                                Prolog 的逻辑纯度与调试
+                            </div>
+
+                            <ul style="padding-left: 20px; margin: 0;">
+                                <li>Higher-order Predicates</li>
+                                <li>Logical Purity</li>
+                                <li>Declarative Testing</li>
+                                <li>Declarative Debugging</li>
+                                <li>Definite Clause Grammars</li>
+                            </ul>
+
+
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span><a
+                                    href=https://www.bilibili.com/video/BV1nHu1zMEyJ/?share_source=copy_web&vd_source=2e7bbf9a3c6e14105c4437cf749691ed>
+                                    B站视频</a></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" style="text-align: center;width: 20px;"><span>4</span></td>
+                        <td rowspan="1" style="text-align: center;width: 50px;">2025.07.09<span>
+                            </span></td>
+                        <td style="text-align: center;width: 50px;"><span> 张欣爽</span>
+                            <p>桑世杰</p>
+                            </span>
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 100px;">
+                            <span><a href=https://www.metalevel.at/prolog>
+                                    [1]</a> 17/18/21/25节</span>
+
+                        </td>
+                        <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
+                            <div style="text-align: center; font-weight: bold;">
+                                Prolog 的应用
+                            </div>
+                            <ul style="padding-left: 20px; margin: 0;">
+                                <li>Thinking in States</li>
+                                <li>Meta-interpreters</li>
+                                <li>Expert Systems</li>
+                                <li>Theorem Proving</li>
+                            </ul>
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span><a
+                                    href=https://www.bilibili.com/video/BV1Jpu1zqEZz/?share_source=copy_web&vd_source=2e7bbf9a3c6e14105c4437cf749691ed>
+                                    B站视频</a></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" style="text-align: center;width: 20px;"><span>5</span></td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span>2025.07.11 </span></td>
+                        <td style="text-align: center;width: 50px;"><span>袁雪容</span>
+
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 100px;">
+                            <span><a href=https://github.com/potassco/guide/releases/tag/v2.2.0>
+                                    [3]</a> 1~3节</span>
+
+                        </td>
+                        <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
+                            <div style="text-align: center; font-weight: bold;">
+                                ASP 简介与 Clingo 语法入门
+                            </div>
+                            <ul style="padding-left: 20px; margin: 0;">
+                                <li>Introduction</li>
+                                <li>Quickstart</li>
+                                <li>Input Languages</li>
+                            </ul>
+
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span><a
+                                    href=https://www.bilibili.com/video/BV1Jpu1zqE1T/?share_source=copy_web&vd_source=2e7bbf9a3c6e14105c4437cf749691ed>
+                                    B站视频</a></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" style="text-align: center;width: 20px;"><span>6</span></td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span>2025.07.15 </span></td>
+                        <td style="text-align: center;width: 50px;"><span> 周桢瑜</span>
+                            <p>李墨晗</p>
+                            </span>
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 100px;">
+                            <span><a href=https://github.com/potassco/guide/releases/tag/v2.2.0>
+                                    [3]</a> 5~8节</span>
+
+                        </td>
+                        <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
+                            <div style="text-align: center; font-weight: bold;">
+                                进阶语法
+                            </div>
+                            <ul style="padding-left: 20px; margin: 0;">
+                                <li>Theory Solving</li>
+                                <li>Examples</li>
+                                <li>Command Line Options</li>
+                                <li>Errors, Warnings, and Infos</li>
+                            </ul>
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span><a
+                                    href=https://www.bilibili.com/video/BV1HHu1zMETe/?share_source=copy_web&vd_source=2e7bbf9a3c6e14105c4437cf749691ed>
+                                    B站视频</a></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" style="text-align: center;width: 20px;"><span>7</span></td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span>2025.07.17 </span></td>
+                        <td style="width: 50px;"><span>何语丛 </span>
+                            <p>王炯达</p>
+                            </span>
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 100px;">
+                            <span><a href=https://github.com/potassco/guide/releases/tag/v2.2.0>
+                                    [3]</a> 9~11节</span>
+                            <p><a href=https://www.ilasp.com/?no_animation>[4]</a> ILASP</p>
+
+                        </td>
+                        <td rowspan="1" style="width: 200px; text-align: left; vertical-align: top;">
+                            <div style="text-align: center; font-weight: bold;">
+                                ASP 的应用
+                            </div>
+                            <ul style="padding-left: 20px; margin: 0;"></ul>
+                            <li>Meta-Programming</li>
+                            <li>Heuristic-driven Solving</li>
+                            <li>Optimization and Preference Handling</li>
+                            <li>ILASP</li>
+                            </ul>
+                        </td>
+                        <td rowspan="1" style="text-align: center;width: 50px;"><span><a
+                                    href=https://www.bilibili.com/video/BV1HHu1zMEn1/?share_source=copy_web&vd_source=2e7bbf9a3c6e14105c4437cf749691ed>
+                                    B站视频</a></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><a href=https://github.com/XinShuangZ/2025_logic_program>Github 仓库链接</a></p>
+            </figure>
+        </section>
+
+        <section id="assignments" class="section">
+            <h2>前沿</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">ILP（归纳逻辑程序设计）</div>
+                    <div class="card-body">
+                        <p>Inductive Logic Programming (ILP) 由 <a href=https://ai.nju.edu.cn/smuggleton>Stephen
+                                H.Muggleton</a>
+                            首创，是一种结合逻辑推理与机器学习的方法，它在给定背景知识和正反例的基础上，自动归纳出可解释的逻辑程序，用于分类、预测或知识发现，广泛应用于生物信息、自然语言等领域。
+                        </p>
+
+                        <p style="margin-bottom: 20px;">
+                            <li><a href=https://www.metalevel.at/prolog>归纳逻辑程序设计综述</a>
+                            </li>
+                            <li><a href=https://github.com/metagol/metagol>ILP系统 Metagol</a>
+                            </li>
+                            <li><a href=https://github.com/logic-and-learning-lab/Popper>ILP系统 Popper</a>
+                            </li>
+                            <li><a href=https://github.com/StephenMuggleton/DeepLog>ILP系统 DeepLog</a>
+                            </li>
+                        </p>
+                    </div>
+                    <!-- 
+                    <div class="card-footer">
+                        <a href="#" class="btn">查看全部实验</a>
+                    </div>
+                -->
+                </div>
+
+                <div class="card">
+                    <div class="card-header">ABL（反绎学习）</div>
+                    <div class="card-body">
+                        <p>Abductive learning (ABL)
+                            是<a
+                                href=https://daiwz.net/index.html>戴望州</a>等人提出的人工智能研究新范式，能有效结合机器学习与逻辑推理的优势，通过端对端的学习方式实现从原始输入到输出的直接控制。得益于保留了完整的归纳和演绎能力，反绎学习框架灵活而实用，在某些推理任务中的表现超越了目前最先进的深度学习模型。
+                        </p>
+                        <p style="margin-bottom: 20px;">
+                            <li><a href=https://daiwz.net/org/pdf/abl-neurips19_cr.pdf>Bridging machine learning and
+                                    logical reasoning
+                                    by abductive learning</a> (NeurIPS 2019)
+                            </li>
+                            <li><a href=https://ojs.aaai.org/index.php/AAAI/article/view/33905>Efficient Rectification
+                                    of
+                                    Neuro-Symbolic Reasoning Inconsistencies
+                                    by Abductive Reflection</a> (AAAI 2025 杰出论文奖)
+
+                            <li><a href=https://ablkit.readthedocs.io/en/latest/index.html>ABLkit 工具包</a>
+                            </li>
+
+                            <li><a href=https://github.com/haldai/ABL_minimal>ABL 极简实现</a>
+                            </li>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+        <section id="staff" class="section">
+            <h2>团队</h2>
+            <div class="instructor-list">
+                <!-- 
+                <div class="instructor">
+                    <img src="D:\meta-llamaLlama-3.1-8B-Instruct\ee817df2-0f1b-4663-b98c-78dbf0aba4eb\南京大学视觉形象规范化标准(jpeg格式文件)\stephen_muggleton.jpg"
+                        alt="...">
+                    <div class="instructor-info">
+                        <h3>Stephen H. Muggleton 教授</h3>
+                        <p>南京大学 人工智能学院</p>
+                        <p>邮箱：<a href="mailto:s.muggleton@gmail.com">s.muggleton@gmail.com</a></p>
+                        <p>主页：<a href="https://ai.nju.edu.cn/smuggleton ">https://ai.nju.edu.cn/smuggleton </a></p>
+                    </div>
+                </div>
+            -->
+                <div class="instructor">
+                    <img src="D:\meta-llamaLlama-3.1-8B-Instruct\ee817df2-0f1b-4663-b98c-78dbf0aba4eb\南京大学视觉形象规范化标准(jpeg格式文件)\daiwz.jpg"
+                        alt="...">
+                    <div class="instructor-info">
+                        <h3>戴望州 副教授</h3>
+                        <p>南京大学 智能科学与技术学院</p>
+                        <p>邮箱：<a href="mailto:daiwz@nju.edu.cn">daiwz@nju.edu.cn</a></p>
+                        <p>主页：<a href="https://daiwz.net ">https://daiwz.net </a></p>
+                    </div>
+                </div>
+            </div>
+            <h3 style="margin-top: 1em; margin-bottom: 0.5em;">博士生</h3>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">何语丛</div>
+                    <div class="card-body">
+                        <p>23级博士生</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">宋奥齐</div>
+                    <div class="card-body">
+                        <p>24级博士生</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">袁雪容</div>
+                    <div class="card-body">
+                        <p>25级博士生</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">桑世杰</div>
+                    <div class="card-body">
+                        <p>25级直博生</p>
+                    </div>
+                </div>
+            </div>
+            <h3 style="margin-top: 1em; margin-bottom: 0.5em;">硕士生</h3>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">周昱辙</div>
+                    <div class="card-body">
+                        <p>23级硕士生</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">张欣爽</div>
+                    <div class="card-body">
+                        <p>23级硕士生</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">苏浩</div>
+                    <div class="card-body">
+                        <p>24级硕士生</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">周桢瑜</div>
+                    <div class="card-body">
+                        <p>24级硕士生</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">李墨晗</div>
+                    <div class="card-body">
+                        <p>25级硕士生</p>
+                    </div>
+                </div>
+            </div>
+            <h3 style="margin-top: 1em; margin-bottom: 0.5em;">本科生</h3>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">王炯达</div>
+                    <div class="card-body">
+                        <p>23级本科生</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">苏珉乐</div>
+                    <div class="card-body">
+                        <p>23级本科生</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">胡亦宽</div>
+                    <div class="card-body">
+                        <p>23级本科生</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">邱昱宁</div>
+                    <div class="card-body">
+                        <p>24级硕士生</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://www.nju.edu.cn">南京大学</a>
+                <a href="https://www.lamda.nju.edu.cn">LAMDA 实验室</a>
+                <a href="https://ai.nju.edu.cn/">人工智能学院</a>
+                <a href="https://is.nju.edu.cn">智能科学与技术学院</a>
+            </div>
+            <p>网页维护 <a href="https://xinshuangz.github.io" style="color: white;">张欣爽 </a>(zhangxs@smail.nju.edu.cn)</p>
+            <p>&copy; 2025 南京大学. 版权所有.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 导航高亮
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+    <script>
+        (function () {
+            // 页面唯一 key
+            const KEY = 'logic-programming-page-views';
+            // 读取历史次数（没有就初始化为 0）
+            let count = parseInt(localStorage.getItem(KEY)) || 0;
+            // 本次访问 +1
+            count += 1;
+            // 存回去
+            localStorage.setItem(KEY, count);
+
+            // 创建显示元素
+            const counter = document.createElement('div');
+            counter.id = 'viewCounter';
+            counter.textContent = `浏览量：${count}`;
+            // 样式：固定在左上角
+            Object.assign(counter.style, {
+                position: 'fixed',
+                top: '10px',
+                left: '10px',
+                background: 'rgba(52,152,219,0.85)',
+                color: '#fff',
+                padding: '6px 12px',
+                borderRadius: '4px',
+                fontSize: '14px',
+                zIndex: 9999
+            });
+            document.body.appendChild(counter);
+        })();
+    </script>
 </body>
 
 </html>
